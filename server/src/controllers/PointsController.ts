@@ -10,13 +10,13 @@ class PointsController{
         .split(',')
         .map(item => Number(item.trim()));
 
-        const points = await knex('points')
-        .join('point_items', 'points.id' , '=', 'point_items.point_id')
-        .whereIn('point_items.item.id', parsedItems)
+        const points = await knex('POINTS')
+        .join('point_items', 'points.id', '=', 'point_items.point_id')
+        .whereIn('point_items.item_id', parsedItems)
         .where('city', String(city))
         .where('uf', String(uf))
         .distinct()
-        .select('points.*');
+        .select('points.*')
 
         return response.json(points);
     }
@@ -54,7 +54,7 @@ class PointsController{
         const trx = await knex.transaction();
     
         const point = {
-            image: 'image-fake',
+            image: 'https://images.unsplash.com/photo-1550989460-0adf9ea622e2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60',
             name,
             email,
             whatsapp,
